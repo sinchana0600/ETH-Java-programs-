@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Food Feedback Form</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836') no-repeat center center/cover;
+}
+
+.overlay {
+    background: rgba(0,0,0,0.2);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-box {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    padding: 30px;
+    border-radius: 15px;
+    width: 350px;
+    color: white;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    text-align: center;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 8px;
+    border: none;
+}
+
+/* ⭐ STAR RATING */
+.stars {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+.stars span {
+    font-size: 30px;
+    cursor: pointer;
+    color: gray;
+}
+
+.stars span.active {
+    color: gold;
+}
+
+/* Button */
+button {
+    width: 100%;
+    padding: 10px;
+    background: orange;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: red;
+}
+
+/* Error */
+#errorMsg {
+    color: red;
+    display: none;
+    font-size: 14px;
+}
+
+/* Thank you */
+#thankYou {
+    display: none;
+    font-size: 18px;
+    color: lightgreen;
+    margin-top: 15px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="overlay">
+<div class="form-box">
+
+<h2>🍔 Food Feedback</h2>
+
+<form id="feedbackForm">
+
+<input type="text" id="name" placeholder="Your Name">
+
+<select>
+<option>Food Category</option>
+<option>Pizza</option>
+<option>Burger</option>
+<option>South Indian</option>
+<option>Chinese</option>
+</select>
+
+<label>⭐ Rate Us</label>
+<div class="stars" id="starRating">
+<span>★</span>
+<span>★</span>
+<span>★</span>
+<span>★</span>
+<span>★</span>
+</div>
+
+<textarea id="feedbackText" rows="4" placeholder="Your Feedback"></textarea>
+
+<button type="submit">Submit</button>
+
+<p id="errorMsg"></p>
+
+</form>
+
+<p id="thankYou">
+🎉 Thank you for your feedback! <br>
+😊 Visit us again <br>
+🍔 Enjoy the food as you wish!
+</p>
+
+</div>
+</div>
+
+<script>
+let stars = document.querySelectorAll("#starRating span");
+let rating = 0;
+
+// ⭐ Star click
+stars.forEach((star, index) => {
+    star.addEventListener("click", function() {
+        rating = index + 1;
+
+        stars.forEach(s => s.classList.remove("active"));
+
+        for (let i = 0; i < rating; i++) {
+            stars[i].classList.add("active");
+        }
+    });
+});
+
+// ✅ Form validation
+document.getElementById("feedbackForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    let name = document.getElementById("name").value.trim();
+    let feedback = document.getElementById("feedbackText").value.trim();
+    let error = document.getElementById("errorMsg");
+
+    error.style.display = "none";
+
+    if (name === "") {
+        error.innerText = "❗ Please fill this field (Name)";
+        error.style.display = "block";
+        return;
+    }
+
+    if (rating === 0) {
+        error.innerText = "❗ Please rate us";
+        error.style.display = "block";
+        return;
+    }
+
+    if (feedback === "") {
+        error.innerText = "❗ Please enter your feedback";
+        error.style.display = "block";
+        return;
+    }
+
+    document.getElementById("thankYou").style.display = "block";
+});
+</script>
+
+</body>
+</html>
